@@ -98,6 +98,14 @@ fi
 echo
 
 
+# Prompt the user for the country code
+read -p "Please enter your country's ISO2 code (for instance, 'US' for United States): " COUNTRY_CODE
+
+# Add the country code to the file
+echo "country=$COUNTRY_CODE" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf
+
+
+
 # # Replace 'username' with your actual username
 # username="trumeter"
 
@@ -112,17 +120,25 @@ echo
 
 ## create and change to trumeter user ##
 
-useradd -m trumeter
+# Prompt the user to ask if they want to change the user
+read -p "Do you want to change the user to 'trumeter'? (y/n): " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
+then
+    # User responded with 'yes' or 'y'
+    
+    # Create the new user
+    useradd -m trumeter
 
-# Set a password for the user
-echo "Enter password for new user 'trumeter': "
-read -s password
-echo "trumeter:$password" | chpasswd
+    # Prompt for the new user's password
+    echo "Enter password for new user 'trumeter': "
+    read -s password
+    echo "trumeter:$password" | chpasswd
 
-# Switch to the new user
-su - trumeter
-echo
-
+    # Change to the new user
+    su - trumeter
+else
+    echo "User change skipped."
+fi
 
 ## GITHUB ##
 

@@ -182,4 +182,4 @@ curl -H "Authorization: token $github_token" -H "Accept: application/vnd.github.
 
 ## EXECUTE SETUP.SH ## 
 echo "Executing setup.sh..."
-# ./setup.sh
+./setup.sh

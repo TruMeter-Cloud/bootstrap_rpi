@@ -10,7 +10,7 @@ fi
 
 # Ask user for their GitHub token without displaying it
 echo "What is your GitHub token?"
-read -s github_token
+read github_token
 
 # Validate the token
 echo "Validating GitHub token..."
@@ -131,7 +131,7 @@ then
 
     # Prompt for the new user's password
     echo "Enter password for new user 'trumeter': "
-    read -s password
+    read password
     echo "trumeter:$password" | chpasswd
 
     # Change to the new user
@@ -172,7 +172,7 @@ curl -H "Authorization: token $github_token" \
 
 
 ## EXECUTE SETUP.SH ##
-echo "Executing setup.sh..."
+ls echo "Executing setup.sh..."
 
 chmod +x setup.sh
 ./setup.sh

@@ -153,33 +153,27 @@ read email
 mkdir -p ~/.ssh
 
 # Generate the SSH key
-ssh-keygen -t rsa -b 4096 -C "$email" -f ~/.ssh/id_rsa
+ssh-keygen -t rsa -b 4096 -C "\$email" -f ~/.ssh/id_rsa -N ""
 
 echo "SSH key generated successfully."
 
-# Start the ssh-agent in the background
-eval "$(ssh-agent -s)"
-
-# Add the SSH key to the ssh-agent
-ssh-add ~/.ssh/id_rsa
-
-echo "SSH key added to ssh-agent."
-
-# Get the public key
-public_key=$(cat ~/.ssh/id_rsa.pub)
-
+public_key=\$(cat ~/.ssh/id_rsa.pub)
 
 # Use the GitHub API to add the SSH key to the account
-curl -H "Authorization: token $github_token" --data "{\"title\":\"`hostname`\",\"key\":\"$public_key\"}" https://api.github.com/orgs/TruMeter-Cloud/keys
+curl -X POST -H "Authorization: token $github_token" --data "{\\"title\\":\\"`hostname`\\",\\"key\\":\\"\$public_key\\"}" https://api.github.com/user/keys
 
-# Create the directories if they don't exist
-mkdir -p ~/github
-cd ~/github
+cd ~/
 
 #Take the file setup.sh
-curl -H "Authorization: token $github_token" -H "Accept: application/vnd.github.v3.raw" -O -L https://api.github.com/repos/TruMeter-Cloud/Production_RPI/contents/setup.sh
+curl -H "Authorization: token $github_token" \
+     -H 'Accept: application/vnd.github.v3.raw' \
+     -o setup.sh \
+     -L https://api.github.com/repos/TruMeter-Cloud/production_rpi/contents/common/bash/setup.sh
 
 
-## EXECUTE SETUP.SH ## 
+## EXECUTE SETUP.SH ##
 echo "Executing setup.sh..."
+
+chmod +x setup.sh
 ./setup.sh
+

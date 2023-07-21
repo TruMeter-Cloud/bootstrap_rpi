@@ -170,9 +170,7 @@ curl -H "Authorization: token $github_token" \
      -o setup.sh \
      -L https://api.github.com/repos/TruMeter-Cloud/production_rpi/contents/common/bash/setup.sh
 
-#mv /root/setup.sh /home/trumeter/setup.sh
 su trumeter
-#cd ~/
 
 ## EXECUTE SETUP.SH ##
 echo

@@ -199,5 +199,5 @@ echo
 echo "Executing setup.sh..."
 
 chmod +x setup.sh
-#su trumeter -c ./setup.sh
+su trumeter -c ./setup.sh
 

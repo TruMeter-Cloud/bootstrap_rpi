@@ -2,7 +2,7 @@
 
 clear
 if [[ $EUID -ne 0 ]]; then
-  echo "HOLA!! This script must be run as root" 
+  echo "This script must be run as root" 
   exit 1
 fi
 
@@ -142,29 +142,40 @@ fi
 
 ## GITHUB ##
 
-# Generate a new SSH key
-echo "Generating a new SSH key..."
+read -p "Do you want to generate a new SSH key? (y/n): " response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
+then
+  rm /root/.ssh/id_rsa
+  rm /root/.ssh/id_rsa.pub
+  
+  # Generate a new SSH key
+  echo "Generating a new SSH key..."
 
-# Ask for the email associated with the GitHub account
-echo "Please enter the email associated with your GitHub account:"
-read email
+  # Ask for the email associated with the GitHub account
+  echo "Please enter the email associated with your GitHub account:"
+  read email
+  
+  # Create the .ssh directory in the user's home directory if it doesn't exist
+  mkdir -p ~/.ssh
+  
+  # Generate the SSH key
+  ssh-keygen -t rsa -b 4096 -C "\$email" -f ~/.ssh/id_rsa -N ""
+  
+  echo "SSH key generated successfully."
+  
+  public_key=$(cat ~/.ssh/id_rsa.pub)
 
-# Create the .ssh directory in the user's home directory if it doesn't exist
-mkdir -p ~/.ssh
-
-# Generate the SSH key
-ssh-keygen -t rsa -b 4096 -C "\$email" -f ~/.ssh/id_rsa -N ""
-
-echo "SSH key generated successfully."
-
-public_key=$(cat ~/.ssh/id_rsa.pub)
-
-# Use the GitHub API to add the SSH key to the account
-curl -X POST -H "Authorization: token $github_token" --data "{\\"title\\":\\"`hostname`\\",\\"key\\":\\"\$public_key\\"}" https://api.github.com/user/keys
+  # Use the GitHub API to add the SSH key to the account
+  curl -X POST -H "Authorization: token $github_token" --data "{\\"title\\":\\"`hostname`\\",\\"key\\":\\"\$public_key\\"}" https://api.github.com/user/keys
+else
+    echo "SSH key generation skiped"
+fi
 
 
 
 #Take the file setup.sh
+echo "Downloading setup.sh..."
+
 curl -H "Authorization: token $github_token" \
      -H 'Accept: application/vnd.github.v3.raw' \
      -o setup.sh \

@@ -172,6 +172,7 @@ curl -H "Authorization: token $github_token" \
 
 
 ## EXECUTE SETUP.SH ##
+echo
 ls echo "Executing setup.sh..."
 
 chmod +x setup.sh

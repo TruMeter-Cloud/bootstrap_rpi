@@ -99,7 +99,7 @@ echo
 
 
 # Prompt the user for the country code
-read -p "Please enter your country's ISO2 code (for instance, 'US' for United States): " COUNTRY_CODE
+read -p "Please enter your country's ISO2 code (for instance, 'UK' for United Kingdom): " COUNTRY_CODE
 
 # Add the country code to the file
 echo "country=$COUNTRY_CODE" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf

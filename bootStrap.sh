@@ -157,7 +157,7 @@ ssh-keygen -t rsa -b 4096 -C "\$email" -f ~/.ssh/id_rsa -N ""
 
 echo "SSH key generated successfully."
 
-public_key=\$(cat ~/.ssh/id_rsa.pub)
+public_key=$(cat ~/.ssh/id_rsa.pub)
 
 # Use the GitHub API to add the SSH key to the account
 curl -X POST -H "Authorization: token $github_token" --data "{\\"title\\":\\"`hostname`\\",\\"key\\":\\"\$public_key\\"}" https://api.github.com/user/keys

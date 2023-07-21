@@ -151,32 +151,33 @@ then
   
   # Generate a new SSH key
   echo "Generating a new SSH key..."
-
+  
   # Ask for the email associated with the GitHub account
   echo "Please enter the email associated with your GitHub account:"
   read email
   
-  # Create the .ssh directory in the user's home directory if it doesn't exist
-  mkdir -p ~/.ssh
+  # Ensure the user's home directory has a .ssh directory
+  sudo -u trumeter mkdir -p /home/trumeter/.ssh
   
-  # Generate the SSH key
-  ssh-keygen -t rsa -b 4096 -C "\$email" -f ~/.ssh/id_rsa -N ""
+  # Generate the SSH key as the trumeter user
+  sudo -u trumeter ssh-keygen -t rsa -b 4096 -C "$email" -f /home/trumeter/.ssh/id_rsa -N ""
   
   echo "SSH key generated successfully."
   
-  public_key=$(cat ~/.ssh/id_rsa.pub)
-
-  # Ensure the user's home directory has a .ssh directory
-  sudo mkdir -p /home/trumeter/.ssh
-
-  # Copy the SSH keys to the user's home directory
-    cp -R /root/.ssh/* /home/trumeter/.ssh/
-    chown -R trumeter:trumeter /home/trumeter/.ssh
-    chmod 700 /home/trumeter/.ssh
-    chmod 600 /home/trumeter/.ssh/*
-
+  public_key=$(sudo -u trumeter cat /home/trumeter/.ssh/id_rsa.pub)
+  
+  # Start the ssh-agent and add the SSH key to it
+  sudo -u trumeter bash -c 'eval "$(ssh-agent -s)" && ssh-add /home/trumeter/.ssh/id_rsa'
+  
+  # Set appropriate permissions on the .ssh directory and its contents
+  chown -R trumeter:trumeter /home/trumeter/.ssh
+  chmod 700 /home/trumeter/.ssh
+  chmod 600 /home/trumeter/.ssh/*
+  
   # Use the GitHub API to add the SSH key to the account
-  curl -X POST -H "Authorization: token $github_token" --data "{\\"title\\":\\"`hostname`\\",\\"key\\":\\"\$public_key\\"}" https://api.github.com/user/keys
+  curl -X POST -H "Authorization: token $github_token" \
+    --data "{\"title\":\"`hostname`\",\"key\":\"$public_key\"}" \
+    https://api.github.com/user/keys
 else
     echo "SSH key generation skiped"
 fi

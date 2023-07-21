@@ -118,27 +118,27 @@ echo "country=$COUNTRY_CODE" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.co
 
 
 
-## create and change to trumeter user ##
+# ## create and change to trumeter user ##
 
-# Prompt the user to ask if they want to change the user
-read -p "Do you want to change the user to 'trumeter'? (y/n): " response
-if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
-then
-    # User responded with 'yes' or 'y'
+# # Prompt the user to ask if they want to change the user
+# read -p "Do you want to change the user to 'trumeter'? (y/n): " response
+# if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
+# then
+#     # User responded with 'yes' or 'y'
     
-    # Create the new user
-    useradd -m trumeter
+#     # Create the new user
+#     useradd -m trumeter
 
-    # Prompt for the new user's password
-    echo "Enter password for new user 'trumeter': "
-    read password
-    echo "trumeter:$password" | chpasswd
+#     # Prompt for the new user's password
+#     echo "Enter password for new user 'trumeter': "
+#     read password
+#     echo "trumeter:$password" | chpasswd
 
-    # Change to the new user
-    su - trumeter
-else
-    echo "User change skipped."
-fi
+#     # Change to the new user
+#     su - trumeter
+# else
+#     echo "User change skipped."
+# fi
 
 ## GITHUB ##
 

@@ -172,7 +172,7 @@ curl -H "Authorization: token $github_token" \
 
 #mv /root/setup.sh /home/trumeter/setup.sh
 su trumeter
-cd ~/
+#cd ~/
 
 ## EXECUTE SETUP.SH ##
 echo

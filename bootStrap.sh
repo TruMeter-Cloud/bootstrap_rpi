@@ -165,6 +165,15 @@ then
   
   public_key=$(cat ~/.ssh/id_rsa.pub)
 
+  # Ensure the user's home directory has a .ssh directory
+  sudo mkdir -p /home/trumeter/.ssh
+
+  # Copy the SSH keys to the user's home directory
+    cp -R /root/.ssh/* /home/trumeter/.ssh/
+    chown -R trumeter:trumeter /home/trumeter/.ssh
+    chmod 700 /home/trumeter/.ssh
+    chmod 600 /home/trumeter/.ssh/*
+
   # Use the GitHub API to add the SSH key to the account
   curl -X POST -H "Authorization: token $github_token" --data "{\\"title\\":\\"`hostname`\\",\\"key\\":\\"\$public_key\\"}" https://api.github.com/user/keys
 else

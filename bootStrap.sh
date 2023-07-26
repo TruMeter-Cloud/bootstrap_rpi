@@ -143,7 +143,7 @@ echo
 ## GITHUB ##
 
 # Capture the output of `whoami` command into a variable named "current_user"
-current_user=trumeter
+# current_user=trumeter
 
 read -p "Do you want to generate a new SSH key? (y/n): " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
@@ -159,22 +159,22 @@ then
   read email
   
   # Ensure the user's home directory has a .ssh directory
-  sudo -u $current_user mkdir -p /home/$current_user/.ssh
+  sudo -u $username mkdir -p /home/$username/.ssh
   
   # Generate the SSH key as the trumeter user
-  sudo -u $current_user ssh-keygen -t rsa -b 4096 -C "$email" -f /home/$current_user/.ssh/id_rsa -N ""
+  sudo -u $username ssh-keygen -t rsa -b 4096 -C "$email" -f /home/$username/.ssh/id_rsa -N ""
   
   echo "SSH key generated successfully."
   
-  public_key=$(sudo -u $current_user cat /home/$current_user/.ssh/id_rsa.pub)
+  public_key=$(sudo -u $username cat /home/$username/.ssh/id_rsa.pub)
   
   # Start the ssh-agent and add the SSH key to it
-  sudo -u $current_user bash -c 'eval "$(ssh-agent -s)" && ssh-add /home/$current_user/.ssh/id_rsa'
+  sudo -u $username bash -c 'eval "$(ssh-agent -s)" && ssh-add /home/$current_user/.ssh/id_rsa'
   
   # Set appropriate permissions on the .ssh directory and its contents
-  chown -R $current_user:$current_user /home/$current_user/.ssh
-  chmod 700 /home/$current_user/.ssh
-  chmod 600 /home/$current_user/.ssh/*
+  chown -R $username:$username /home/$username/.ssh
+  chmod 700 /home/$username/.ssh
+  chmod 600 /home/$username/.ssh/*
   
   # Use the GitHub API to add the SSH key to the account
   curl -X POST -H "Authorization: token $github_token" \
@@ -201,5 +201,5 @@ echo
 echo "Executing setup.sh..."
 
 chmod +x setup.sh
-su $current_user -c ./setup.sh
+su $username -c ./setup.sh
 

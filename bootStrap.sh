@@ -207,5 +207,6 @@ echo
 echo "Executing setup.sh..."
 
 chmod +x setup.sh
+echo "su" $username "-c ./setup.sh" $box_type
 su $username -c ./setup.sh $box_type
 

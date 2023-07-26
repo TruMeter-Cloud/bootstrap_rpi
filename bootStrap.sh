@@ -143,7 +143,7 @@ echo
 ## GITHUB ##
 
 # Capture the output of `whoami` command into a variable named "current_user"
-current_user=$(whoami)
+current_user=trumeter
 
 read -p "Do you want to generate a new SSH key? (y/n): " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
@@ -159,7 +159,7 @@ then
   read email
   
   # Ensure the user's home directory has a .ssh directory
-  sudo -u trumeter mkdir -p /home/trumeter/.ssh
+  sudo -u $current_user mkdir -p /home/$current_user/.ssh
   
   # Generate the SSH key as the trumeter user
   sudo -u $current_user ssh-keygen -t rsa -b 4096 -C "$email" -f /home/$current_user/.ssh/id_rsa -N ""
@@ -172,7 +172,7 @@ then
   sudo -u $current_user bash -c 'eval "$(ssh-agent -s)" && ssh-add /home/$current_user/.ssh/id_rsa'
   
   # Set appropriate permissions on the .ssh directory and its contents
-  chown -R trumeter:trumeter /home/$current_user/.ssh
+  chown -R $current_user:$current_user /home/$current_user/.ssh
   chmod 700 /home/$current_user/.ssh
   chmod 600 /home/$current_user/.ssh/*
   

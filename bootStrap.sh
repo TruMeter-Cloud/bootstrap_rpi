@@ -6,6 +6,12 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
+# Check if the 'box_type' argument is provided
+if [ -z "$1" ]; then
+  echo "Usage: $0 <box_type>"
+  exit 1
+fi
+box_type="$1"
 
 
 # Ask user for their GitHub token without displaying it
@@ -201,5 +207,5 @@ echo
 echo "Executing setup.sh..."
 
 chmod +x setup.sh
-su $username -c ./setup.sh
+su $username -c ./setup.sh $box_type
 

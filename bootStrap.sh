@@ -118,7 +118,6 @@ echo
 # echo
 
 
-
 # ## create and change to trumeter user ##
 
 # # Prompt the user to ask if they want to change the user

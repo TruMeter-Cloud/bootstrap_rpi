@@ -51,7 +51,7 @@ if [ ! -f /etc/sudoers.d/nopsd ]; then
 
     echo "password setup so no need for sudo..."
 fi
-echo
+# echo
 
 
 ## Setup read only and read-write ##
@@ -76,7 +76,7 @@ if [ ! -f "$sudoers_file" ]; then
 
     echo "Passwordless mount setup for user $username..."
 fi
-echo
+# echo
 
 
 ## make apt-get to be used without password

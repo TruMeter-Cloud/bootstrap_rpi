@@ -151,9 +151,9 @@ echo
 # Capture the output of `whoami` command into a variable named "current_user"
 # current_user=trumeter
 
-read -p "Do you want to generate a new SSH key? (y/n): " response
-if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
-then
+# read -p "Do you want to generate a new SSH key? (y/n): " response
+# if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
+# then
   # rm /root/.ssh/id_rsa
   # rm /root/.ssh/id_rsa.pub
   
@@ -161,14 +161,15 @@ then
   echo "Generating a new SSH key..."
   
   # Ask for the email associated with the GitHub account
-  echo "Please enter the email associated with your GitHub account:"
-  read email
+  # echo "Please enter the email associated with your GitHub account:"
+  # read email
   
   # Ensure the user's home directory has a .ssh directory
   sudo -u $username mkdir -p /home/$username/.ssh
   
   # Generate the SSH key as the trumeter user
-  sudo -u $username ssh-keygen -t rsa -b 4096 -C "$email" -f /home/$username/.ssh/id_rsa -N ""
+  # sudo -u $username ssh-keygen -t rsa -b 4096 -C "$email" -f /home/$username/.ssh/id_rsa -N ""
+  sudo -u $username ssh-keygen -t rsa -b 4096 -C "javier.ema@trumeter.com" -f /home/$username/.ssh/id_rsa -N ""
   
   echo "SSH key generated successfully."
   
@@ -186,9 +187,9 @@ then
   curl -X POST -H "Authorization: token $github_token" \
     --data "{\"title\":\"`hostname`\",\"key\":\"$public_key\"}" \
     https://api.github.com/user/keys
-else
-    echo "SSH key generation skiped"
-fi
+# else
+#     echo "SSH key generation skiped"
+# fi
 
 
 

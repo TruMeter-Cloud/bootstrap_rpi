@@ -208,6 +208,6 @@ echo
 echo "Executing setup.sh..."
 
 chmod +x setup.sh
-echo "su" $username "-c ./setup.sh" $box_type
-su $username -c ./setup.sh $box_type
+#echo "su" $username "-c ./setup.sh" $box_type
+su $username -c "home/$username/setup.sh" $box_type
 
